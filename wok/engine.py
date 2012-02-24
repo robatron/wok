@@ -170,6 +170,7 @@ class Engine(object):
             logging.info('Hook {0} not defined'.format(hook_name))
         return returns
 
+
     def prepare_output(self):
         """
         Prepare the output directory. Remove any contents there already, and
@@ -188,7 +189,7 @@ class Engine(object):
         self.run_hook('site.output.pre', self.options['output_dir'])
 
         # Copy the media directory to the output folder
-        try:
+        if os.path.isdir(self.options['media_dir']):
             for name in os.listdir(self.options['media_dir']):
                 path = os.path.join(self.options['media_dir'], name)
                 if os.path.isdir(path):
@@ -203,8 +204,7 @@ class Engine(object):
                 self.run_hook('site.output.post', self.options['output_dir'])
 
         # Do nothing if the media directory doesn't exist
-        except OSError:
-            # XXX: We should verify that the problem was the media dir
+        else
             logging.info('There was a problem copying the media files to the '
                          'output directory.')
 
