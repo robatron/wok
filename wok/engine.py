@@ -100,11 +100,16 @@ class Engine(object):
 
         self.run_hook('site.start')
 
-        self.prepare_output()
-        self.load_pages()
-        self.make_tree()
-        self.render_site()
+        self.backup_output()
+        try:
+            self.prepare_output()
+            self.load_pages()
+            self.make_tree()
+            self.render_site()
+        except:
+            self.restore_output()
 
+        self.delete_output_backup()
         self.run_hook('site.done')
 
         # Dev server
@@ -171,6 +176,30 @@ class Engine(object):
         return returns
 
 
+    def backup_output(self):
+        """
+        Backup the output directory to a directory named ".output-bkp"
+        """
+        logging.info("Backing up output directory to '.output-bkp'.")
+        pass
+
+
+    def restore_output(self):
+        """
+        Restore an output directory backup from ".output-bkp"
+        """
+        logging.info("Restoring output backup '.output-bkp'.")
+        pass
+
+
+    def delete_output_backup(self):
+        """
+        Remove an output directory backup called ".output-bkp"
+        """
+        logging.info("Deleting output backup '.output-bkp'.")
+        pass
+
+
     def prepare_output(self):
         """
         Prepare the output directory. Remove any contents there already, and
@@ -204,7 +233,7 @@ class Engine(object):
                 self.run_hook('site.output.post', self.options['output_dir'])
 
         # Do nothing if the media directory doesn't exist
-        else
+        else:
             logging.info('There was a problem copying the media files to the '
                          'output directory.')
 
