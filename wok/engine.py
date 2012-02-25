@@ -193,12 +193,23 @@ class Engine(object):
         """
         Restore output directory backup from ".output-bkp"
         """
-        pass
+        logging.info("Restoring output directory from '.output-bkp'")
+        out_dir = self.options['output_dir']
+        bkp_dir = '.output-bkp'
+        if os.path.isdir(bkp_dir):
+            if os.path.isdir(out_dir):
+                shutil.rmtree(out_dir)
+            shutil.copytree(bkp_dir, out_dir)
+        else:
+            logging.error('Restore output backup failed. No output backup '
+                    'directory found.')
+
 
     def delete_output_backup(self):
         """
         Delete output directory backup called ".output-bkp"
         """
+        bkp_dir = '.output-bkp'
         pass
 
 
