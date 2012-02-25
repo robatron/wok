@@ -178,31 +178,28 @@ class Engine(object):
 
     def backup_output(self):
         """
-        Backup the output directory to a directory named ".output-bkp"
+        Backup the output directory -> '.output-bkp'
         """
-        logging.info("Backing up output directory to '.output-bkp'.")
-        src = self.options['output_dir']
-        dst = '.output-bkp'
-        if not os.path.isdir(dst):
-            shutil.copytree(src, dst)
+        logging.info("Backing up output directory -> '.output-bkp'")
+        out_dir = self.options['output_dir']
+        bkp_dir = '.output-bkp'
+        if not os.path.isdir(bkp_dir):
+            shutil.copytree(out_dir, bkp_dir)
         else:
             self.delete_output_backup()
 
-
     def restore_output(self):
         """
-        Restore an output directory backup from ".output-bkp"
+        Restore output directory backup from ".output-bkp"
         """
-        logging.info("Restoring output backup '.output-bkp'.")
         pass
-
 
     def delete_output_backup(self):
         """
-        Remove an output directory backup called ".output-bkp"
+        Delete output directory backup called ".output-bkp"
         """
-        logging.info("Deleting output backup '.output-bkp'.")
         pass
+
 
 
     def prepare_output(self):
