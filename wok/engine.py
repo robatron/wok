@@ -108,6 +108,7 @@ class Engine(object):
             self.render_site()
         except:
             self.restore_output()
+            raise
 
         self.delete_output_backup()
         self.run_hook('site.done')
