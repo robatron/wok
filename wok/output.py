@@ -1,4 +1,5 @@
 import logging
+import unittest
 from os.path import isdir, isfile
 from shutil import copytree, rmtree
 
@@ -56,3 +57,26 @@ class output_backup(object):
         else:
             logging.warn('Error deleting output backup: Backup directory not '
                     'found.')
+
+
+class test_output_backup(unittest.TestCase):
+    """ 
+    Unit tests for output backup module.
+    """
+
+    def setUp(self):
+        pass
+
+    def test_backup(self):
+        pass
+
+    def test_restore(self):
+        pass
+
+    def test_delete(self):
+        pass
+
+
+if __name__ == "__main__":
+    # run tests if module run standalone
+    unittest.main()
