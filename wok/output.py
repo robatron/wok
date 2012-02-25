@@ -1,6 +1,8 @@
 import logging
 import unittest
+import os
 from os.path import isdir, isfile
+import shutil
 from shutil import copytree, rmtree
 
 class output_backup(object):
@@ -64,8 +66,18 @@ class test_output_backup(unittest.TestCase):
     Unit tests for output backup module.
     """
 
+    TESTBED = '.output_backup_testbed'
+    ORIG_WD = os.getcwd()
+
     def setUp(self):
-        pass
+        """ To do before every unit test """
+        os.mkdir(self.TESTBED)
+        os.chdir(self.TESTBED) 
+
+    def tearDown(self):
+        """ To do after every unit test """
+        os.chdir(self.ORIG_WD)
+        shutil.rmtree(self.TESTBED)
 
     def test_backup(self):
         pass
