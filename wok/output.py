@@ -3,8 +3,15 @@ from os.path import isdir, isfile
 from shutil import copytree, rmtree
 
 class output_backup(object):
+    """
+    Backup and restore the output directory.
+    """
 
     def __init__(self, out_dir, bkp_dir):
+        """ 
+        Initialize new output backup specifying hte output directory and the
+        backup directory names.
+        """
         self.out_dir = out_dir 
         self.bkp_dir = bkp_dir
 
