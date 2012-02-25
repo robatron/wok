@@ -13,6 +13,7 @@ from wok.page import Page, Author
 from wok import renderers
 from wok import util
 from wok import devserver
+from wok import output
 
 
 class Engine(object):
@@ -100,17 +101,20 @@ class Engine(object):
 
         self.run_hook('site.start')
 
-        self.backup_output()
+        output_backup = output.output_backup(self.options['output_dir'], 
+                '.output-bkp')
+
+        output_backup.backup()
         try:
             self.prepare_output()
             self.load_pages()
             self.make_tree()
             self.render_site()
         except:
-            self.restore_output()
+            output_backup.restore()
             raise
 
-        self.delete_output_backup()
+        output_backup.delete()
         self.run_hook('site.done')
 
         # Dev server
@@ -175,43 +179,6 @@ class Engine(object):
         except AttributeError:
             logging.info('Hook {0} not defined'.format(hook_name))
         return returns
-
-
-    def backup_output(self):
-        """
-        Backup the output directory -> '.output-bkp'
-        """
-        logging.info("Backing up output directory -> '.output-bkp'")
-        out_dir = self.options['output_dir']
-        bkp_dir = '.output-bkp'
-        if not os.path.isdir(bkp_dir):
-            shutil.copytree(out_dir, bkp_dir)
-        else:
-            self.delete_output_backup()
-
-    def restore_output(self):
-        """
-        Restore output directory backup from ".output-bkp"
-        """
-        logging.info("Restoring output directory from '.output-bkp'")
-        out_dir = self.options['output_dir']
-        bkp_dir = '.output-bkp'
-        if os.path.isdir(bkp_dir):
-            if os.path.isdir(out_dir):
-                shutil.rmtree(out_dir)
-            shutil.copytree(bkp_dir, out_dir)
-        else:
-            logging.error('Restore output backup failed. No output backup '
-                    'directory found.')
-
-
-    def delete_output_backup(self):
-        """
-        Delete output directory backup called ".output-bkp"
-        """
-        bkp_dir = '.output-bkp'
-        pass
-
 
 
     def prepare_output(self):
